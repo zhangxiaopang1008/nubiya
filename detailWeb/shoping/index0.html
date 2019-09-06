@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			ul{
+				list-style: none;
+			}
+			#goods{
+				width: 800px;
+				margin:50px auto;
+				border: 2px solid green;
+				min-height: 300px;
+				overflow: hidden;
+			}
+			#goods ul {
+				width: 800px;
+			}
+			#goods ul li{
+				width: 178px;
+				border: 1px solid red;
+				overflow: hidden;
+				margin: 10px;
+				float: left;
+			}
+			#goods ul li img{
+				width: 180px;
+				height: 190px;
+				border-bottom: 1px solid blue;
+			}
+			#goods ul li p{
+				font-size: 12px;
+				padding-left: 5px;
+				line-height: 20px;
+				border-bottom: 1px dashed #C0C0C0;
+			}
+			#goods ul li p:last-child{
+				line-height: 40px;
+				font-size: 18px;
+				text-align: center;
+				font-weight: bold;
+				border-bottom: none;
+				background: darkblue;
+				color: wheat;
+				cursor: pointer;
+			}
+			#goods ul li p:last-child:hover{
+				font-size: 20px;
+			}
+			#cart{
+				width: 50px;
+				position: absolute;
+				right: 0px;
+				top: 50px;
+			}
+			#cartImg{
+				position: absolute;
+				width: 60px;
+			}
+			#cartImg img{
+				width: 30px;
+				height: 30px;
+				vertical-align: middle;
+			}
+			#cartImg span{
+				display: inline-block;
+				line-height: 50px;
+				font-size: 12px;
+				color: green;
+				padding:0 5px;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="goods">
+			<!--<ul>
+				<li>
+					<img src="img/ASP.NET.jpg"/>
+					<p><span>编号：</span><span>001</span></p>
+					<p><span>书名：</span><span>ASP.NET</span></p>
+					<p><span>作者：</span><span>jexy</span></p>
+					<p><span>出版日期：</span><span>2017/07/21</span></p>
+					<p><span>出版社：</span><span>北京语言大学出版社</span></p>
+					<p><span>单价：</span><span>80</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<img src="img/C语言.jpg"/>
+					<p><span>编号：</span><span>002</span></p>
+					<p><span>书名：</span><span>C语言</span></p>
+					<p><span>作者：</span><span>周某某</span></p>
+					<p><span>出版日期：</span><span>2017/09/15</span></p>
+					<p><span>出版社：</span><span>人民教育出版社</span></p>
+					<p><span>单价：</span><span>90</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<img src="img/C语言.jpg"/>
+					<p><span>编号：</span><span>003</span></p>
+					<p><span>书名：</span><span>java</span></p>
+					<p><span>作者：</span><span>周某某</span></p>
+					<p><span>出版日期：</span><span>2017/07/15</span></p>
+					<p><span>出版社：</span><span>人民教育出版社</span></p>
+					<p><span>单价：</span><span>30</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<img src="img/javaScript.jpg"/>
+					<p><span>编号：</span><span>004</span></p>
+					<p><span>书名：</span><span>javaScript</span></p>
+					<p><span>作者：</span><span>田某某</span></p>
+					<p><span>出版日期：</span><span>2017/07/15</span></p>
+					<p><span>出版社：</span><span>北京师范大学出版社</span></p>
+					<p><span>单价：</span><span>300</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<img src="img/java编程思想.jpg"/>
+					<p><span>编号：</span><span>005</span></p>
+					<p><span>书名：</span><span>java思想</span></p>
+					<p><span>作者：</span><span>李某某</span></p>
+					<p><span>出版日期：</span><span>2018/07/15</span></p>
+					<p><span>出版社：</span><span>上海世纪出版集团</span></p>
+					<p><span>单价：</span><span>88</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<img src="img/LINUX系统编程.jpg"/>
+					<p><span>编号：</span><span>006</span></p>
+					<p><span>书名：</span><span>LINUX编程</span></p>
+					<p><span>作者：</span><span>李某某</span></p>
+					<p><span>出版日期：</span><span>2018/07/15</span></p>
+					<p><span>出版社：</span><span>科学出版社</span></p>
+					<p><span>单价：</span><span>78</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<img src="img/mysql.jpg"/>
+					<p><span>编号：</span><span>007</span></p>
+					<p><span>书名：</span><span>mysql</span></p>
+					<p><span>作者：</span><span>李某某</span></p>
+					<p><span>出版日期：</span><span>2018/07/15</span></p>
+					<p><span>出版社：</span><span>科学出版社</span></p>
+					<p><span>单价：</span><span>78</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<img src="img/python.jpg"/>
+					<p><span>编号：</span><span>008</span></p>
+					<p><span>书名：</span><span>python</span></p>
+					<p><span>作者：</span><span>李某某</span></p>
+					<p><span>出版日期：</span><span>2018/07/15</span></p>
+					<p><span>出版社：</span><span>科学出版社</span></p>
+					<p><span>单价：</span><span>79</span></p>
+					<p class="add">加入购物车</p>
+				</li>
+			</ul>-->
+		</div>
+		<div id="cart">
+			<div id="cartImg"><a href="cart.html" id="cartBtn"><img src="img/cart.jpg"/><span id="cartGoodsNum">0</span></a></div>
+		</div>
+	</body>
+</html>
+<script src="js/jquery.min.js"></script> 
+<script type="text/javascript">
+	
+	window.onload = function(){
+		new GoodsInit().init();
+	}
+	
+	//页面加载时从后台获取所有商品数据
+	//将数据填充在页面中
+	function GoodsInit(){
+		this.goodsEle = $("#goods");
+		this.goods = [];//保存所有商品数据 
+	}
+	GoodsInit.prototype.init = function(){
+		//获取商品数据
+		this.getGoods();
+	}
+	GoodsInit.prototype.getGoods = function(){
+		
+		$.getJSON("goods.json",function(res){
+			//console.log(res);
+			//保存商品数据
+			this.goods = res;//得到商品数据 ，是异步的程序
+			//在页面中显示数据 
+			this.showData();//得到商品数据 后才能实现添加购物车。
+			//实现添加购物车功能
+			new AddCart().init();
+			
+		}.bind(this));
+	}
+	GoodsInit.prototype.showData = function(){
+		var str = "";
+		
+		$.each(this.goods, function(index,ele) {//遍历数据
+			//console.log(ele);
+			str += `
+				<ul>
+					<li>
+						<img src="img/${ele.src}"/>
+						<p><span>编号：</span><span class="bid">${ele.bid}</span></p>
+						<p><span>书名：</span><span>${ele.bookName}</span></p>
+						<p><span>作者：</span><span>${ele.auter}</span></p>
+						<p><span>出版日期：</span><span>${ele.date}</span></p>
+						<p><span>出版社：</span><span>${ele.press}</span></p>
+						<p><span>单价：</span><span>${ele.price}</span></p>
+						<p class="add">加入购物车</p>
+					</li>
+				</ul>
+			`;
+		});
+		this.goodsEle.html(str);
+	}
+	//console.log($(".add").html());
+	class AddCart{
+		constructor(){
+			this.add = $(".add");
+			this.uName = decodeURIComponent(location.search.substr(1).split("=")[1]);
+			this.cartGoodsNum = $("#cartGoodsNum");
+			this.cartBtn = $("#cartBtn");
+		}
+		init(){
+			//console.log($(".add").eq.html());
+			this.addClick();
+			//显示购物车按钮的数据提示
+			this.computeCartNum();
+			//跳转购物车
+			this.cartLoad();
+		}
+		addClick(){//点击添加购物车
+			var _this = this;
+			this.add.click(function(){
+				//获取对应商品的bid
+				var bid = $(this).parent().find(".bid").text();
+				var goodsArr = [];
+				//console.log(bid);
+				//获取locastorage中的的goods你信息，
+				/*console.log(localStorage);
+				console.log(localStorage.getItem("wampStyle"));*/
+				if(localStorage.getItem(_this.uName+"Goods")){
+					//如果有，
+					goodsArr = JSON.parse(localStorage.getItem(_this.uName+"Goods"));
+					var flag = false;//表示这个商品在购物车中没有这个数据
+					$.each(goodsArr,function(index,ele){
+						if(ele.bid == bid){//表示这个商品在购物车中已经有这个数据
+							//可能已经有当前的数据
+							flag = true;
+							//在原来的基础上加1
+							ele.num++;
+							return false;
+						}
+					})
+					if(!flag){
+						//可能没有
+							//追加一条商品信息 {bid:005,num:1}
+						goodsArr.push({bid:bid,num:1});
+					}
+				}else{
+					//如果不存在，说明是第一次购物
+					// [{"bid":001,num:1}]
+					goodsArr = [{
+						bid : bid,
+						num : 1
+					}];
+				}
+				localStorage.setItem(_this.uName+"Goods",JSON.stringify(goodsArr));
+			
+				//计算购物车数量
+				_this.computeCartNum();
+			
+			});
+		}
+		computeCartNum(){
+			var num = 0;
+			//查看_this.uName+"Goods"是否存在
+			if(localStorage.getItem(this.uName+"Goods")){//存在
+				
+				var cartGoods = JSON.parse(localStorage.getItem(this.uName+"Goods"));
+				$.each(cartGoods, function(index,ele) {
+					num += Number(ele.num);
+				});
+				
+			}
+			this.cartGoodsNum.html(num)
+		}
+		cartLoad(){
+			var _this = this;
+			this.cartBtn.click(function(){
+				$(this).attr("href","cart.html?uname="+_this.uName);
+			})
+		}
+	}
+	
+	
+	//localStorage只有两个值
+	//中本地存储
+	//永久存储。
+	//localStorage.setItem("key","value");
+	//localStorage.getItem("key");
+	
+	
+</script>

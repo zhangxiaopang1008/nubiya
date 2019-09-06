@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			ul{
+				list-style: none;
+			}
+			.title{
+				width: 800px;
+				margin: 20px auto;
+				font-size: 20px;
+				font-weight: bold;
+			} 
+			.title:after{
+				content: " ";
+				display: block;
+				clear: both;
+			}
+			.title li{
+				width: 130px;
+				line-height: 30px;
+				float: left;
+				text-align: center;
+				border-right: 2px solid #AABBCC;
+			}
+			.title li:last-child{
+				border-right: none;
+			}
+			.line{
+				width: 800px;
+				margin: 20px auto;
+			}
+			.carts{
+				width: 800px;
+				margin: 20px auto;
+				border: 3px solid #CCCCCC;
+			}
+			.carts .title{
+				height: 120px;
+			}
+			.carts .title li{
+				height: 120px;
+				line-height: 120px;
+				border-bottom: 2px dotted #CCCCCC;
+				border-top: 2px dotted #CCCCCC;
+				margin-bottom: 5px;
+			}
+			.carts .title li img{
+				height: 100px;
+			}
+			.carts .title li p{
+				padding: 5px 0;
+			}
+			.carts .title li input[type=button]{
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+			}
+			#footer li{
+				width: 180px;
+			}
+		</style>
+	</head>
+	<body>
+		<div><a href="index.html">返回商品页</a></div>
+		<ul class="title">
+			<li><input id="checkAll" type="checkbox"/>&emsp;全选</li>
+			<li>商品</li>
+			<li>数量</li>
+			<li>单价</li>
+			<li>操作</li>
+			<li>总价</li>
+		</ul>
+		<div class="line"><hr /></div>
+		<div class="carts">
+			<!--<ul class="title">
+				<li><input class="one" type="checkbox"/></li>
+				<li>
+					<p><img src="img/C语言.jpg"/></p>
+				</li>
+				<li><span>3</span></li>
+				<li><span>60</span></li>
+				<li><input type="button" value="-"/>&nbsp;|&nbsp;<input type="button" value="+"/></li>
+				<li><span>0</span></li>
+			</ul>-->
+		</div>
+		<div class="line"><hr /></div>
+		
+		<ul id="footer" class="title">
+			<li><input id="deslection" type="checkbox"/>&emsp;取消选择</li>
+			<li>商品总数：<span id="totalCount">0</span></li>
+			<li>需付金额：<span id="totalPrice">0</span></li>
+			<li><input id="delCartGoods" type="button" value="删除所选商品" /></li>
+		</ul>
+	</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+	
+	window.onload = function(){
+		
+		new ShowCart().init();
+		
+	}
+	
+	//显示购物车信息在页面
+	class ShowCart{
+		constructor(){
+			this.carts = $(".carts");
+			this.goods = [];		//保存数据库的商品数据
+			this.cartGoods = [];	//保存购物车中的信息
+			this.uName = decodeURIComponent(location.search.substr(1).split("=")[1]);
+		}
+		init(){
+			//获取数据库的商品数据
+			this.getGoods();
+			//获取保存购物车中的信息
+			this.getCartGoods();
+			
+		}
+		getGoods(){
+			var _this = this;
+			$.getJSON("goods.json",function(data){
+				//保存data
+				_this.goods = data;
+				//将购物车的信息显示在页面
+				_this.showCartGoods();
+				
+				//开始对购物车增删改查
+				new ComputeCart(_this.uName).init();
+			})
+		}
+		getCartGoods(){
+			console.log(this.uName)
+			if(localStorage.getItem(this.uName + "Goods")){
+				this.cartGoods = JSON.parse(localStorage.getItem(this.uName + "Goods"));
+			}
+		}
+		showCartGoods(){
+			var _this = this;
+			if(this.cartGoods.length > 0){
+				var str = "";
+				//购物车商品信息存在
+				$.each(this.goods,function(index,ele){
+					
+					for (var i = 0; i < _this.cartGoods.length; i++) {
+						if(ele.bid == _this.cartGoods[i].bid){//bid相等说明是要获取对应的这条商品的信息
+							
+							str += `
+							<ul class="title">
+								<input class="gBid" type="hidden" value="${ele.bid}"/>
+								<li><input class="one" type="checkbox"/></li>
+								<li>
+									<p><img src="img/${ele.src}"/></p>
+								</li>
+								<li><span class="gNum">${_this.cartGoods[i].num}</span></li>
+								<li><span class="gPrice">${ele.price}</span></li>
+								<li><input class="jian" type="button" value="-"/>&nbsp;|&nbsp;<input class="add" type="button" value="+"/></li>
+								<li><span class="gTotalPrice">${_this.cartGoods[i].num * ele.price}</span></li>
+							</ul>
+							
+							`;
+						}
+					}
+				});
+				//插入到cart中
+				_this.carts.html(str);
+			}
+		}
+	}
+	
+	
+	
+	class ComputeCart{//在何处开运行这个代码？
+		constructor(uname){
+			this.checkAll = $("#checkAll");
+			this.deslection = $("#deslection");
+			this.totalCount = $("#totalCount");
+			this.totalPrice = $("#totalPrice");
+			this.delCartGoods = $("#delCartGoods");
+			this.uname = uname;
+			//this.carts = $("#carts");
+			this.one = $(".one");
+			this.jian = $(".jian");
+			this.add = $(".add");
+		}
+		init(){
+			this.checkAllClick();//选中所有
+			this.deslectionClick();//取消选择
+			this.oneSelect();//单个商品的选中
+			this.jianClick();//
+			this.addClick();//
+			this.delCartGoodsClick();//删除后有选中的商品
+		}
+		checkAllClick(){
+			var _this = this;
+			this.checkAll.click(function(){
+				//选中所有的单个商品
+				if($(this).prop("checked")){
+					_this.one.prop("checked",true);//所有的单个商品都被选中
+					//checkAll禁止点击
+					$(this).prop("disabled",true);
+					//deslection解除禁止并且恢复未选中状态
+					_this.deslection.prop("disabled",false).prop("checked",false);
+					
+					//计算所有数量
+					//var sum = _this.getCheckedOneNum();
+					//console.log(sum);
+					_this.totalCount.html(_this.getCheckedOneNum());
+					//计算所有选中的总价格
+					//var totalPrice = _this.getCheckedOnePrice();
+					_this.totalPrice.html(_this.getCheckedOnePrice());
+					
+				}
+			});
+		}
+		deslectionClick(){
+			var _this = this;
+			this.deslection.click(function(){
+				
+				if($(this).prop("checked")){
+					_this.one.prop("checked",false);//所有的单个商品都取消选中
+					//checkAll解除禁止并且恢复未选中状态
+					_this.checkAll.prop("disabled",false).prop("checked",false);
+					//this.deslection要禁止点击 
+					$(this).prop("disabled",true);
+					
+					//总数量 和总价都为0
+					_this.totalCount.html(0);
+					_this.totalPrice.html(0);
+				}
+			});
+		}
+		oneSelect(){
+			var _this = this;
+			this.one.click(function(){
+				var isAllYes = true;//所有的都被选中了
+				var isAllNo = true;//所有的都没有被 选中
+				//遍历所有one，判断选中情况
+				_this.one.each(function(index,ele){
+					if(!$(ele).prop("checked")){//只要来执行，最少有一个没有被选中
+						isAllYes = false;
+					}else{
+						isAllNo = false;
+					}
+				})
+				if(isAllYes){
+					//所有的one都选中了
+					//deslection可点击 并且是未选中状态
+					_this.deslection.prop("disabled",false).prop("checked",false);
+					//checkAll不可点，并且是选中状态
+					_this.checkAll.prop("disabled",true).prop("checked",true);
+				}else{//最少有一个没有被选中
+					if(isAllNo){//所有的one都没有被选中
+						//deslection要禁止点击 并且是选中状态
+						_this.deslection.prop("disabled",true).prop("checked",true);
+						//checkAll可点，并且是未选中状态
+						_this.checkAll.prop("disabled",false).prop("checked",false);
+					}else{
+						//只要有一个没有被选中
+							//deslection可点击 并且是未选中状态
+						_this.deslection.prop("disabled",false).prop("checked",false);	
+							//checkAll可点，并且是未选中状态
+						_this.checkAll.prop("disabled",false).prop("checked",false);
+					}
+				}
+				
+				//计算所有选中数量
+				_this.totalCount.html(_this.getCheckedOneNum());
+				//计算所有选中的总价格
+				_this.totalPrice.html(_this.getCheckedOnePrice());
+				
+			})
+		}
+		//获取所有选中商品的数量 
+		getCheckedOneNum(){
+			var sum = 0;
+			this.one.each(function(index,ele){
+				if($(ele).prop("checked")){
+					//统计所在行的数量 
+					sum += Number($(ele).parent().parent().find(".gNum").text());
+				}
+			})
+			return sum;
+		}
+		//获取所有选中商品的数量 
+		getCheckedOnePrice(){
+			var totalPrice = 0;
+			this.one.each(function(index,ele){
+				if($(ele).prop("checked")){
+					//统计所在行的数量 
+					totalPrice += Number($(ele).parent().parent().find(".gTotalPrice").text());
+				}
+			})
+			return totalPrice;
+		}
+		/*
+		 <ul class="title">
+		 	input class="gbid" type="hidden"
+			<li><input class="one" type="checkbox"/></li>
+			<li>
+				<p><img src="img/${ele.src}"/></p>
+			</li>
+			<li><span class="gNum">${_this.cartGoods[i].num}</span></li>
+			<li><span class="gPrice">${ele.price}</span></li>
+			<li><input class="jian" type="button" value="-"/>&nbsp;|&nbsp;<input class="add" type="button" value="+"/></li>
+			<li><span class="gTotalPrice">${_this.cartGoods[i].num * ele.price}</span></li>
+		</ul>
+		 */
+		jianClick(){
+			var _this = this;
+			this.jian.click(function(){
+				/*var num = Number($(this).parent().parent().find(".gNum").text());
+				var price = Number($(this).parent().parent().find(".gPrice").text());
+				num--;
+				$(this).parent().parent().find(".gNum").html(num);
+				$(this).parent().parent().find(".gTotalPrice").html(num * price);*/
+				_this.compute($(this),-1);
+			});
+		}
+		addClick(){
+			var _this = this;
+			this.add.click(function(){
+				/*var num = Number($(this).parent().parent().find(".gNum").text());
+				var price = Number($(this).parent().parent().find(".gPrice").text());
+				num++;
+				$(this).parent().parent().find(".gNum").html(num);
+				$(this).parent().parent().find(".gTotalPrice").html(num * price);*/
+				_this.compute($(this),1);
+			});
+		}
+		compute(obj,n){
+			var num = Number(obj.parent().parent().find(".gNum").text());
+			var price = Number(obj.parent().parent().find(".gPrice").text());
+			var gBid = obj.parent().parent().find(".gBid").val();
+			num += n;
+			obj.parent().parent().find(".gNum").html(num);
+			obj.parent().parent().find(".gTotalPrice").html(num * price);
+			
+			//计算所有选中数量
+			this.totalCount.html(this.getCheckedOneNum());
+			//计算所有选中的总价格
+			this.totalPrice.html(this.getCheckedOnePrice());
+			if(num == 0){
+				//删除商品
+				obj.parent().parent().remove();
+			}
+			//更新购物车；
+			this.updateCart(gBid,num);
+		}
+		updateCart(bid,num){
+			//根据bid来更新购物车中的数据
+			//获取购物车中的商品信息
+			if(localStorage.getItem(this.uname+"Goods")){
+				//存在
+				var cartGoods = JSON.parse(localStorage.getItem(this.uname+"Goods"));
+				//console.log(cartGoods);
+				for (var i = 0; i < cartGoods.length; i++) {
+					if(cartGoods[i].bid == bid){
+						cartGoods[i].num = num;
+						if(cartGoods[i].num == 0){
+							cartGoods.splice(i,1);
+						}
+						break;
+					};
+				}
+				//更新购物车
+				localStorage.setItem(this.uname+"Goods",JSON.stringify(cartGoods));
+			}
+			//console.log(this.uname);
+		}
+		delCartGoodsClick(){
+			var _this = this;
+			this.delCartGoods.click(function(){
+				for (var i = 0; i < _this.one.length; i++) {
+					if(_this.one.eq(i).prop("checked")){
+						_this.one.eq(i).parent().parent().remove();
+						//找到对应商品中的bid
+						var gBid = _this.one.eq(i).parent().parent().find(".gBid").val();
+						//根据bid删除购物车中的数据
+						_this.updateCart(gBid,0);
+					}
+				}
+				
+				//计算所有选中数量
+				_this.totalCount.html(0);
+				//计算所有选中的总价格
+				_this.totalPrice.html(0);
+			})
+		}
+	}
+	
+	
+	
+	
+	
+</script>

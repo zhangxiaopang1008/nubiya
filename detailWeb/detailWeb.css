@@ -1,0 +1,280 @@
+body,html{
+    width: 100%;
+    overflow-x: hidden;
+}
+/* 版心 */
+#base{
+    width: 1170px;
+    margin: 0 auto;
+}
+.phoneNav,.phoneNav a{
+    font-size: 12px;
+    color: #b3a6c4;
+    margin-top: 78px;
+    margin-bottom: 21px;
+}
+.phoneNav span{
+    padding: 0 5px;
+}
+.con{
+    height: 900px;
+}
+.conLeft{
+    width: 585px;
+    height: 704px;
+    background: #fff;
+    float: left;
+}
+.conLeft img{
+    cursor: pointer;
+}
+.conLeft ol{
+    padding-left: 100px;
+    padding-top: 10px;
+    height: 36px;
+}
+.conLeft ol li{
+    float: left;
+}
+.conLeft ol li i{
+    font-size: 14px;
+    font-style: normal;
+    color: #666;
+    font-weight: normal;
+    cursor: pointer;
+}
+.conLeft .iconfont{
+    color: #ef7a5d;
+    font-size: 18px;
+    font-weight: 600;
+}
+.littleImg{
+    width: 585px;
+    height: 86px;
+    background: #fff;
+    padding-left: 100px;
+    margin-top: 576px;
+}
+.bigImg{
+    position: absolute;
+}
+.onborder{
+    border: 1px solid #a34e34;
+    box-sizing: border-box;
+}
+.littleImg li{
+    width: 86px;
+    height: 86px;
+    box-sizing: border-box;
+    float: left;
+    margin-right: 10px;
+}
+.littleImg li img{
+    width: 100%;
+}
+.conRight{
+    width: 585px;
+    height: 830px;
+    float: left;
+}
+.conRight h1{
+    font-size: 24px;
+    font-weight: normal;
+}
+.conRight h2,.conRight h3{
+    font-size: 16px;
+    font-weight: 800;
+    color: rgb(255, 77, 77);
+    line-height: 1.7222;
+}
+.conRight h3{
+    margin-bottom:20px; 
+}
+.conRight .price{
+    width: 585px;
+    height: 202px;
+    box-sizing: border-box;
+    padding: 30px 20px 20px;
+    background: #f8f8f8;
+}
+.conRight .price .price_1,.conRight .price .active .activeLeft,.conRight .address .addressLeft{
+    font-size: 14px;
+    color: #646464;
+}
+.conRight .price .price_1 b{
+    font-weight: normal;
+    padding-left: 20px;
+    color: rgb(255, 94, 94)
+}
+.conRight .price .price_1 span{
+    font-size: 32px;
+    color: rgb(255, 94, 94);
+}
+.conRight .price .active{
+    height: 110px;
+    padding: 12px 0;
+}
+.conRight .price .active .activeLeft,.activeLeft,.conRight .address .addressLeft,.conRight .address img,.conRight .address p ul li{
+    float: left;
+}
+.conRight .price .active .activeRight{
+    float: left;
+    width: 463px;
+    height: 89px;
+    padding-left: 20px;
+}
+.conRight .price .active p{
+    margin-bottom: 10px;
+}
+.conRight .price .active span{
+    margin-right: 0.85rem;
+    color: rgb(255,94,94);
+    padding: 0rem 1rem;
+    border: 1px solid rgb(255,94,94);
+    background: white;
+    font-size: 12px;
+    border-radius: 4px;
+}
+.conRight .price .active i{
+    font-size: 14px;
+    color: #1e1e1e;
+    font-style: normal;
+}
+.conRight .address{
+    width: 585px;
+    height: 82px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #fff;
+    border-bottom: 1px solid rgb(224,224,224);
+}
+.conRight .address img{
+    padding-left: 20px;
+    position: relative;
+    top: 3px;
+    padding-right: 10px;
+}
+.conRight .address p div{
+    width: 430px;
+    
+}
+.conRight .province,.conRight .city,.conRight .area,.conRight .reset{
+    font-size: 14px;
+}
+.conRight .reset{
+    float: right;
+    color: #ff4D4d;
+}
+.conRight .species{
+    width: 585px;
+    height: 280px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgb(224,224,224);
+}
+.conRight .species .speciesLeft1{
+    width: 100%;
+    display: flex;
+} 
+.rightLabel2 {
+    width: 15%;
+    font-size: 0.9rem;
+    color: rgb(100,100,100);
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 10px;
+}
+.conRight .species .speciesLeft1 .selectColor{
+    width: 85%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.conRight .species .speciesLeft1 .selectColor li{
+        box-sizing: border-box;
+        margin-top: 2px;
+        padding: 8px 0px;
+        width: 31%;
+        margin-right: 10px;
+        border: 1px solid rgb(224,224,224);
+        color: rgb(100,100,100);
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        border-radius: 7px;
+        line-height: 25px;
+}
+.conRight .species .speciesLeft1 .selectColor li:hover{
+    border: 1px solid #000;
+}
+.num{
+    width: 190px;
+    height: 50px;
+    border: 1px solid rgb(224,224,224);
+    display: flex;
+    
+    align-items: center;
+}
+.num div {
+    width: 33.33%;
+    height: 100%;
+    color: rgb(30,30,30);
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 50px;
+    position: relative;
+}
+.num img{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 16px;
+    left: 18px;
+}
+.conRight .buyBtn1,.conRight .buyBtn2{
+    width: 283px;
+    height: 50px;
+    background: rgb(255,94,94);
+    margin-top: 20px;
+    color: #fff;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 7px;
+}
+.buy{
+    margin-top: 20px;
+}
+.conRight .buyBtn2{
+    float: right;
+}
+.conRight .buyBtn1{
+    float: left;
+    background: rgb(255,148,79);
+}
+.line{
+    border-top: 1px solid #e5e5e5;
+}
+.line ul{
+    height: 60px;
+}
+.line ul li{
+    float: left;
+    line-height: 60px;
+    font-size: 14px;
+}
+.detailImg,.arguments{
+    cursor: pointer;
+}
+.detailImg img{
+    width: 100%;
+}
+#btn1,#btn2{
+    cursor: pointer;
+}
+.choose{
+    border: 1px solid rgb(255,94,94);
+}

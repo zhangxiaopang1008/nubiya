@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			#login{
+				width: 300px;
+				margin: 100px auto;
+				border: 1px solid black;
+				font-size: 20px;
+				/*display: none;*/
+			}
+			#login p{
+				line-height: 50px;
+				padding: 10px;
+				
+			}
+			#login input{
+				height: 25px;
+			}
+			#login p:last-child{
+				text-align: center;
+			}
+			#login p:last-child input{
+				width: 100px;
+				height: 30px;
+				border-radius: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="login">
+			<form action="php/login.php" method="post">
+				<p>
+				用户名：<input type="text" name="uname" value="tom"/>
+				</p>
+				<p>
+					密&ensp;&ensp;码：<input type="password" name="upwd" value="123"/>
+				</p>
+				<p>
+					<input id="btn" type="submit" value="登录" />
+				</p>
+			</form>
+		</div>
+	</body> 
+</html>

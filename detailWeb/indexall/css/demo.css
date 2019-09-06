@@ -1,0 +1,46 @@
+body,html,a,img,ul,li,ol,dl,dt,dd,p,input,span,h1,h2,h3,h4,h5,h6,tr,td,th,i,em,b,strong,form{padding:0;margin:0}
+a{text-decoration: none;color:#fff;}
+ul li,ol li{list-style: none;}
+img{vertical-align:top ;border: none;}
+body{font-family:"微软雅黑";font-size:12px;}
+.clearfix:after{content:"";clear:both;height:0;overflow:hidden;display:block;visibility:hidden;font-size:0;}
+
+
+body,html{width:100%;background: #fff;overflow-x: hidden}
+.nav{width:100%;height:65px;background: #282828;float:left;}
+.main{width:1170px;margin:0 auto;}
+.nav a{float:left;}
+.nav ul{margin-left: 120px;}
+.nav ul,li{float:left;color:#fff;line-height: 35px;}
+.nav li{font-size: 14px;margin: 15px;}
+.select{margin-top: 20px;width:110px;height: 30px;background: #333333;border: none;outline: none;float: left;margin-left: 10px;border-radius: 50px;}
+.icongerenzhongxin{color:#fff;}
+.icontubiaozhizuomoban{color:#fff;}
+.iconsousuo{position: absolute;right:10px;margin-top: 3px;line-height: 65px;float: left;color:#ccc}
+.nav span{width:50px;height:65px;display: inline-block;line-height: 65px;text-align: center;}
+.nav span:hover{background: #f45d4a;}
+.box{position: relative;width:125px;height: 66px;float:left;margin-left: 80px;}
+
+
+.container{width:100%;height:385px;background: #efeeea;padding-top:115px;}
+.all{height:385px;float:left;}
+.add-1,.add-2,.add-3,.add-4,.add-5,.add-6{width:195px;height:385px;float: left;}
+.add-1 p,.add-2 p,.add-3 p,.add-4 p,.add-5 p,.add-6 p{color: #666666;font-size: 24px;margin-bottom: 27px;}
+.add-1 h4,.add-2 h4,.add-3 h4,.add-4 h4,.add-5 h4,.add-6 h4{color:#6e7371;font-size:12px;margin-bottom: 16px;font-weight: normal;}
+.add-1 h4:hover,.add-2 h4:hover,.add-3 h4:hover,.add-4 h4:hover,.add-5 h4:hover,.add-6 h4:hover{color: #f45d4a;}
+
+
+.add-6 span{color:#9e9f9e;line-height:30px;}
+.add-6 .kefu{width:120px;height:30px;border:1px solid #d4d5d4;border-radius: 5px;}
+.add-6 .kefu h4{text-align: center;line-height: 30px;color:#ababaa;font-size:14px;}
+
+
+.footer-1 a{text-align: center;}
+.footer-1 a img{width:105px}
+.footer-2 p{text-align: center;margin-bottom: 15px;}
+.footer-3 p{text-align: center;color: black;font-size: 12px;color:#555555;margin-bottom: 5px;}
+.footer-4 p{text-align: center;margin-bottom: 5px;}
+.footer-4 p img{width:11px;height:16px;margin-bottom: 5px;}
+.footer-4 p span{color:#999}
+.footer-5 p{text-align: center;}
+.footer-5 p img{width:80px;height:30px;margin-bottom: 20px;}

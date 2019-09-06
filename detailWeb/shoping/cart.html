@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			ul{
+				list-style: none;
+			}
+			.title{
+				width: 800px;
+				margin: 20px auto;
+				font-size: 20px;
+				font-weight: bold;
+			} 
+			.title:after{
+				content: " ";
+				display: block;
+				clear: both;
+			}
+			.title li{
+				width: 130px;
+				line-height: 30px;
+				float: left;
+				text-align: center;
+				border-right: 2px solid #AABBCC;
+			}
+			.title li:last-child{
+				border-right: none;
+			}
+			.line{
+				width: 800px;
+				margin: 20px auto;
+			}
+			.carts{
+				width: 800px;
+				margin: 20px auto;
+				border: 3px solid #CCCCCC;
+			}
+			.carts .title{
+				height: 120px;
+			}
+			.carts .title li{
+				height: 120px;
+				line-height: 120px;
+				border-bottom: 2px dotted #CCCCCC;
+				border-top: 2px dotted #CCCCCC;
+				margin-bottom: 5px;
+			}
+			.carts .title li img{
+				height: 100px;
+			}
+			.carts .title li p{
+				padding: 5px 0;
+			}
+			.carts .title li input[type=button]{
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+			}
+			#footer li{
+				width: 180px;
+			}
+		</style>
+	</head>
+	<body>
+		<div><a href="index.html">返回商品页</a></div>
+		<ul class="title">
+			<li><input id="checkAll" type="checkbox"/>&emsp;全选</li>
+			<li>商品</li>
+			<li>数量</li>
+			<li>单价</li>
+			<li>操作</li>
+			<li>总价</li>
+		</ul>
+		<div class="line"><hr /></div>
+		<div class="carts">
+			<!--<ul class="title">
+				<li><input class="one" type="checkbox"/></li>
+				<li>
+					<p><img src="img/C语言.jpg"/></p>
+				</li>
+				<li><span>3</span></li>
+				<li><span>60</span></li>
+				<li><input type="button" value="-"/>&nbsp;|&nbsp;<input type="button" value="+"/></li>
+				<li><span>0</span></li>
+			</ul>-->
+		</div>
+		<div class="line"><hr /></div>
+		
+		<ul id="footer" class="title">
+			<li><input id="deslection" type="checkbox"/>&emsp;取消选择</li>
+			<li>商品总数：<span id="totalCount">0</span></li>
+			<li>需付金额：<span id="totalPrice">0</span></li>
+			<li><input id="delCartGoods" type="button" value="删除所选商品" /></li>
+		</ul>
+	</body>
+</html>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+
+    window.onload = function(){
+        new ShowCart().init();
+    }
+    //显示购物车信息在页面
+    class ShowCart{
+        constructor(){
+            this.carts = $(".carts");
+            this.goods = []; //获取数据库商品信息
+            this.cartGoods = []; //获取购物车商品信息
+            this.uName = decodeURIComponent(location.search.substr(1).split("=")[1]);
+
+        }
+        init(){
+            //获取数据库的商品信息
+            this.getGoods();
+            //获取保存购物车中的信息
+            this.getCartGoods();
+        }
+        getGoods(){
+            var _this = this;
+            $.getJSON("goods.json",function(data){
+                //保存data
+                _this.goods = data;
+                //将购物车的信息显示在页面
+                _this.showCartGoods();
+                // console.log(_this.goods)
+                //开始对购物车增删改查
+                new ComputeCart(_this.uName).init();
+            })
+        }
+        getCartGoods(){
+            if(localStorage.getItem(this.uName + "Goods")){
+                this.cartGoods = JSON.parse(localStorage.getItem(this.uName + "Goods"))
+            }
+        }
+        showCartGoods(){
+            var _this = this;
+            if(this.cartGoods.length > 0){
+                var str = "";
+                //购物车商品信息存在
+                $.each(this.goods,function(index,ele){
+                    for(var i = 0; i <_this.cartGoods.length;i++){
+                        if(ele.bid == _this.cartGoods[i].bid){
+                            //相等说明获取对应的商品的这条信息
+                            str +=`
+                            <ul class="title">
+								<input class="gBid" type="hidden" value="${ele.bid}"/>
+								<li><input class="one" type="checkbox"/></li>
+								<li>
+									<p><img src="img/${ele.src}"/></p>
+								</li>
+								<li><span class="gNum">${_this.cartGoods[i].num}</span></li>
+								<li><span class="gPrice">${ele.price}</span></li>
+								<li><input class="jian" type="button" value="-"/>&nbsp;|&nbsp;<input class="add" type="button" value="+"/></li>
+								<li><span class="gTotalPrice">${_this.cartGoods[i].num * ele.price}</span></li>
+							</ul>
+                            `;
+                        }
+                    }
+                });
+                //插入到cart中
+                _this.carts.html(str);
+            }
+        }
+    }
+    
+    class ComputeCart{//在何处开始计算
+        constructor(){
+            this.checkAll = $("#checkAll");
+            this.deselection = $("#deselection");
+            this.totalCount = $("#totalCount");
+            this.totalPrice = $("#totalPrice");
+            this.delCartGoods = $("#delCartGoods");
+        }
+        init(){
+            this.checkAllClick();//选中所有
+        }
+        checkAllClick(){
+            var _this = this;
+            //点击  选中所有按钮
+            this.checkAll.click(function(){
+                //选中所有单个商品
+                if($(this).prop("checked")){
+                    _this.one.prop("checked",true);
+                }
+            })
+        }
+    }
+
+	
+	
+</script>
